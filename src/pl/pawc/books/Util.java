@@ -1,18 +1,20 @@
 package pl.pawc.books;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import pl.pawc.books.pojo.Book;
 import pl.pawc.books.pojo.Comment;
 
 public class Util {
 
-	private static GregorianCalendar getDateFrom(String stringDate){
-		String temp[] = stringDate.split("-");
-		int year = 0;
-		int month = 0;
-		int day = 0;
+	public static Date getDateFrom(String stringDate){
+		String[] temp = stringDate.split("-");
+		int year;
+		int month;
+		int day;
 		try{
 			year = Integer.parseInt(temp[0]);
 			month = Integer.parseInt(temp[1]);
@@ -20,10 +22,14 @@ public class Util {
 		}
 		catch(NumberFormatException e){
 			e.printStackTrace();
+			year = 0;
+			month = 0;
+			day = 0;
 		}
-		finally{
-			return new GregorianCalendar(year, month, day);
-		}
+		
+		GregorianCalendar calendar = new GregorianCalendar(year, month, day);
+		Date date = new Date(calendar.getTimeInMillis());
+		return date;
 	}
 	
 	private static ArrayList<Comment> getCommentsFrom(String line){
@@ -40,7 +46,7 @@ public class Util {
 		String[] record = line.split(";");
 		String author = record[0];
 		String tittle = record[1];
-		GregorianCalendar releaseDate = getDateFrom(record[2]);
+		Date releaseDate = new Date(Long.parseLong(record[2]));
 		int likes = Integer.parseInt(record[3]);
 		ArrayList<Comment> comments = getCommentsFrom(extractComments(line));
 		
@@ -62,8 +68,7 @@ public class Util {
 		result += ";";
 		result += book.getTittle();
 		result += ";";
-		GregorianCalendar releaseDate = book.getReleaseDate();
-		result += releaseDate.YEAR+"-"+releaseDate.MONTH+"-"+releaseDate.DAY_OF_MONTH;
+		result += book.getReleaseDate().getTime();
 		result += ";";
 		result += book.getLikes();
 		result += ";";
@@ -74,6 +79,8 @@ public class Util {
 	
 	private static String getStringFrom(ArrayList<Comment> comments){
 		String result = "";
+		if(comments == null) return "";
+		if(comments.isEmpty()) return "";
 		for(Comment comment : comments){
 			result += comment.getAuthor();
 			result += ";";
@@ -82,6 +89,24 @@ public class Util {
 		}
 		result = result.substring(0, result.length()-1);
 		return result;
+	}
+	
+	public static void list(HashMap<Integer, Book> map){
+		for(int i : map.keySet()){
+			log(i+": "+map.get(i).toString());
+		}
+	}
+	
+	public static void log(String text){
+		System.out.println(text);
+	}
+	
+	public static int nextKey(){
+		int result = 0;
+		for(int i : Main.map.keySet()){
+			if(result<=i) result = i;
+		}
+		return result+1;
 	}
 	
 }

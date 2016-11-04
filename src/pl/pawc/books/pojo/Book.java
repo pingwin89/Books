@@ -1,6 +1,8 @@
 package pl.pawc.books.pojo;
 
-import java.util.GregorianCalendar;
+import java.util.Date;
+
+import javax.rmi.CORBA.Util;
 
 import java.util.ArrayList;
 
@@ -8,11 +10,11 @@ public class Book {
 
 	private String author;
 	private String tittle;
-	private GregorianCalendar releaseDate;
+	private Date releaseDate;
 	private int likes;
 	private ArrayList<Comment> comments;
 	
-	public Book(String author, String tittle, GregorianCalendar releaseDate){
+	public Book(String author, String tittle, Date releaseDate){
 		this.author = author;
 		this.tittle = tittle;
 		this.releaseDate = releaseDate;
@@ -20,7 +22,7 @@ public class Book {
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 	}
 	
-	public Book(String author, String tittle, GregorianCalendar releaseDate, int likes, ArrayList<Comment> comments){
+	public Book(String author, String tittle, Date releaseDate, int likes, ArrayList<Comment> comments){
 		this.author = author;
 		this.tittle = tittle;
 		this.releaseDate = releaseDate;
@@ -36,7 +38,7 @@ public class Book {
 		return tittle;
 	}
 	
-	public GregorianCalendar getReleaseDate(){
+	public Date getReleaseDate(){
 		return releaseDate;
 	}
 	
@@ -54,6 +56,10 @@ public class Book {
 	
 	public void addComment(Comment comment){
 		comments.add(comment);
+	}
+	
+	public String toString(){
+		return author+" - "+ tittle +", released on:"+releaseDate.toString()+". Likes: "+likes;
 	}
 
 }
