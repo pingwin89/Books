@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import pl.pawc.books.pojo.Book;
+import pl.pawc.books.pojo.Comment;
 
 public class CommandHandler {
 
@@ -16,6 +17,7 @@ public class CommandHandler {
 		case "save" : save(); break;
 		case "add" : add(); break;
 		case "list" : list(); break;
+		case "comment" : comment(); break;
 		//case "remove" : remove(); break;
 		//case "like" : like(); break;
 		//case "top": top(); break;
@@ -23,9 +25,30 @@ public class CommandHandler {
 		//case "recent" : recent(); break;
 		//case "oldest" : oldest(); break;
 		//case "help" : help(); break;
-		
+				
 		}
 		
+	}
+	
+	private static void comment(){
+		int number;
+		String author = null;
+		String text = null;
+		try{
+			Util.log("your name: ");
+			author = Main.sc.nextLine();
+			Util.log("your comment: ");
+			text = Main.sc.nextLine();
+			Util.log("Number of the book to comment:");
+			number = Main.sc.nextInt();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return;
+		}
+		Comment comment = new Comment(author, text);
+		if(Main.map.get(number)==null) return;
+		Main.map.get(number).addComment(comment);	
 	}
 	
 	private static void exit(){
@@ -54,7 +77,6 @@ public class CommandHandler {
 	
 	private static void list(){
 		Util.list(Main.map);
-	}
-	
+	}	
 	
 }

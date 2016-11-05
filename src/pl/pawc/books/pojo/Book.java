@@ -59,7 +59,12 @@ public class Book {
 	}
 	
 	public String toString(){
-		return author+" - "+ tittle +", released on:"+releaseDate.toString()+". Likes: "+likes;
+		String info = author+" - "+ tittle +", released on:"+releaseDate.toString()+". Likes: "+likes;
+		String com = "";
+		for(Comment comment : comments){
+			com += comment.toString()+"\n";
+		}
+		return info+"\n"+com;
 	}
 
 }
