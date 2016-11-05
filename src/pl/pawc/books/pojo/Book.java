@@ -60,6 +60,7 @@ public class Book {
 	
 	public String toString(){
 		String info = author+" - "+ tittle +", released on:"+releaseDate.toString()+". Likes: "+likes;
+		if(comments==null) return info;
 		String com = "";
 		for(Comment comment : comments){
 			com += comment.toString()+"\n";

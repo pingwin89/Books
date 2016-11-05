@@ -49,17 +49,19 @@ public class Util {
 		Date releaseDate = new Date(Long.parseLong(record[2]));
 		int likes = Integer.parseInt(record[3]);
 		ArrayList<Comment> comments = getCommentsFrom(extractComments(line));
-		
+		log("Extracted comments: "+extractComments(line));
 		return new Book(author, tittle, releaseDate, likes, comments);
 	}
 	
-	private static String extractComments(String line){
+	public static String extractComments(String line){
 		String temp[] = line.split(";");
 		String result = "";
 		for(int i=4; i<temp.length; i++){
 			result += temp[i];
+			result += ";";
 		}
-		return result;
+		if(result.length()==0) return "";
+		return result.substring(0, result.length()-1);
 	}
 	
 	public static String getStringFrom(Book book){
